@@ -1,3 +1,4 @@
+
 ;; emacs kicker --- kick start emacs setup
 ;; Copyright (C) 2010 Dimitri Fontaine
 ;;
@@ -33,6 +34,17 @@
 		   (global-set-key (kbd "<C-S-left>")   'buf-move-left)
 		   (global-set-key (kbd "<C-S-right>")  'buf-move-right)))
 
+   (:name flatland-theme
+	  :description "Flatland theme for emacs"
+	  :type github
+	  :pkgname "gchp/flatland-emacs"
+;	  :feature flatland-theme
+;         :depends color-theme
+;	  :after (progn
+;		     (add-to-list 'custom-theme-load-path "~/.emacs.d/el-get/flatland-theme/")
+;      		     (load-theme 'flatland t))
+	  )
+   
    (:name smex				; a better (ido like) M-x
 	  :after (progn
 		   (setq smex-save-file "~/.emacs.d/.smex-items")
@@ -59,7 +71,11 @@
    yasnippet 				; powerful snippet mode
    zencoding-mode			; http://www.emacswiki.org/emacs/ZenCoding
    color-theme		                ; nice looking emacs
-   color-theme-tango))	                ; check out color-theme-solarized
+   color-theme-tango	                ; check out color-theme-solarized
+   jedi                                 ; jedi for python
+   neotree                              ; project tree
+   hideshowvis                          ; add markers to fringe for region
+   ))
 
 ;;
 ;; Some recipes require extra tools to be installed
@@ -82,6 +98,8 @@
 ;; install new packages and init already installed packages
 (el-get 'sync my:el-get-packages)
 
+
+
 ;; on to the visual settings
 (setq inhibit-splash-screen t)		; no splash screen, thanks
 (line-number-mode 1)			; have line numbers and
@@ -89,13 +107,13 @@
 
 (tool-bar-mode -1)			; no tool bar with icons
 (scroll-bar-mode -1)			; no scroll bars
-(unless (string-match "apple-darwin" system-configuration)
-  ;; on mac, there's always a menu bar drown, don't have it empty
-  (menu-bar-mode -1))
+;(unless (string-match "apple-darwin" system-configuration)
+   ;;; on mac, there's always a menu bar drown, don't have it empty
+  ;(menu-bar-mode -1))
 
 ;; choose your own fonts, in a system dependant way
 (if (string-match "apple-darwin" system-configuration)
-    (set-face-font 'default "Monaco-13")
+    (set-face-font 'default "Courier New-18")
   (set-face-font 'default "Monospace-10"))
 
 (global-hl-line-mode)			; highlight current line
@@ -105,13 +123,13 @@
 (add-to-list 'default-frame-alist '(alpha . 100))
 
 ;; copy/paste with C-c and C-v and C-x, check out C-RET too
-(cua-mode)
+;(cua-mode)
 
 ;; under mac, have Command as Meta and keep Option for localized input
-(when (string-match "apple-darwin" system-configuration)
-  (setq mac-allow-anti-aliasing t)
-  (setq mac-command-modifier 'meta)
-  (setq mac-option-modifier 'none))
+;(when (string-match "apple-darwin" system-configuration)
+;  (setq mac-allow-anti-aliasing t)
+;  (setq mac-command-modifier 'meta)
+;  (setq mac-option-modifier 'none))
 
 ;; Use the clipboard, pretty please, so that copy/paste "works"
 (setq x-select-enable-clipboard t)
@@ -163,9 +181,9 @@
 ;; when you do that, to kill emacs either close its frame from the window
 ;; manager or do M-x kill-emacs.  Don't need a nice shortcut for a once a
 ;; week (or day) action.
-(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
-(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
-(global-set-key (kbd "C-x B") 'ibuffer)
+;(global-set-key (kbd "C-x C-b") 'ido-switch-buffer)
+;(global-set-key (kbd "C-x C-c") 'ido-switch-buffer)
+;(global-set-key (kbd "C-x B") 'ibuffer)
 
 ;; have vertical ido completion lists
 (setq ido-decorations
@@ -181,3 +199,6 @@
   (set-frame-parameter nil 'fullscreen
 		       (if (frame-parameter nil 'fullscreen) nil 'fullboth)))
 (global-set-key [f11] 'fullscreen)
+
+(add-to-list 'custom-theme-load-path "~/.emacs.d/el-get/flatland-theme/")
+(load-theme 'flatland t)
